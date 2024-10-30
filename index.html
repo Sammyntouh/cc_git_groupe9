@@ -1,39 +1,122 @@
 <!DOCTYPE html>
-<html>
-	<head>
-        <!-- Content Type Meta tag -->
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-        <!--Responsive Viewport Meta tag-->
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        
-		<title>Todo list app</title>
-        
-		<!-- Roboto font embed -->
-		<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Todo List App</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        .todo {
+            list-style-type: none;
+            padding: 0;
+        }
+        .todo li {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .selected {
+            background-color: #d3d3d3; /* Couleur de fond pour la tâche sélectionnée */
+        }
+        .mon-bouton {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
 
-		<!-- Stylesheets -->
-		<link rel="stylesheet" type="text/css" href="resources/css/reset.min.css">
-		<link rel="stylesheet" type="text/css" href="resources/css/style.css">
-	</head>
-	<body>
+<header>
+    <input type="text" placeholder="Entrer une activité.." id="item">
+    <button id="add">Ajouter</button>
+</header>
 
-		<header>
-			<input type="text" placeholder="hello" id="item">
-			<button id="add">
-				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve"><g><path class="fill" d="M16,8c0,0.5-0.5,1-1,1H9v6c0,0.5-0.5,1-1,1s-1-0.5-1-1V9H1C0.5,9,0,8.5,0,8s0.5-1,1-1h6V1c0-0.5,0.5-1,1-1s1,0.5,1,1v6h6C15.5,7,16,7.5,16,8z"/></g></svg>
-			</button>
-		</header>
+<div class="container">
+    <ul class="todo" id="todo"></ul>
+</div>
 
-		<div class="container">
-			<!-- Uncompleted tasks -->
-			<ul class="todo" id="todo"></ul>
+<button id="modifier-btn" class="mon-bouton">MODIFIER</button>
+<button id="supprimer-btn" class="mon-bouton">SUPPRIMER</button>
 
-			<!-- Completed tasks -->
-			<ul class="todo" id="completed"></ul>
-		</div>
+<script>
+    const todoList = document.getElementById('todo');
+    const addButton = document.getElementById('add');
+    const modifierButton = document.getElementById('modifier-btn');
+    const supprimerButton = document.getElementById('supprimer-btn');
+    let selectedTask = null;
 
-		<!-- JavaScripts -->
-		<script src="resources/js/main.js"></script>
-	</body>
+    // Fonction pour ajouter une tâche
+    addButton.addEventListener('click', function() {
+        const itemInput = document.getElementById('item');
+        const taskText = itemInput.value.trim();
+
+        if (taskText !== "") {
+            const li = document.createElement('li');
+            li.textContent = taskText;
+
+            // Ajouter un gestionnaire d'événements pour sélectionner la tâche
+            li.addEventListener('click', function() {
+                if (selectedTask) {
+                    selectedTask.classList.remove('selected');
+                }
+                selectedTask = li;
+                selectedTask.classList.add('selected');
+            });
+
+            todoList.appendChild(li);
+            itemInput.value = ""; // Réinitialiser le champ de saisie
+        } else {
+            alert("Veuillez entrer une tâche !");
+        }
+    });
+
+    // Fonction pour modifier le texte de la tâche sélectionnée
+    modifierButton.addEventListener('click', function() {
+        if (selectedTask) {
+            const nouveauTexte = prompt("Entrez le nouveau texte pour la tâche :", selectedTask.textContent);
+            if (nouveauTexte !== null && nouveauTexte.trim() !== "") {
+                selectedTask.textContent = nouveauTexte;
+            }
+        } else {
+            alert("Veuillez sélectionner une tâche à modifier !");
+        }
+    });
+
+ HEAD
+	const deleteButton = document.createElement('button');
+deleteButton.textContent = 'Supprimer';
+deleteButton.classList.add('mon-bouton');
+document.body.appendChild(deleteButton);
+
+deleteButton.addEventListener('click', function() {
+if (selectedTask) {
+todoList.removeChild(selectedTask);
+selectedTask = null; // Réinitialiser la tâche sélectionnée
+} else {
+alert("Veuillez sélectionner une tâche à supprimer !");
+}
+})
+
+    // Fonction pour supprimer la tâche sélectionnée
+    supprimerButton.addEventListener('click', function() {
+        if (selectedTask) {
+            todoList.removeChild(selectedTask);
+            selectedTask = null; // Réinitialiser la sélection
+        } else {
+            alert("Veuillez sélectionner une tâche à supprimer !");
+        }
+    });
+	// commentaire ajouté
+
+</script>
+
+</body>
 </html>

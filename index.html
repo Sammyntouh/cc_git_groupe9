@@ -41,15 +41,16 @@
 
 <div class="container">
     <ul class="todo" id="todo"></ul>
-    <ul class="todo" id="completed"></ul>
 </div>
 
 <button id="modifier-btn" class="mon-bouton">MODIFIER</button>
+<button id="supprimer-btn" class="mon-bouton">SUPPRIMER</button>
 
 <script>
     const todoList = document.getElementById('todo');
     const addButton = document.getElementById('add');
     const modifierButton = document.getElementById('modifier-btn');
+    const supprimerButton = document.getElementById('supprimer-btn');
     let selectedTask = null;
 
     // Fonction pour ajouter une tâche
@@ -86,6 +87,16 @@
             }
         } else {
             alert("Veuillez sélectionner une tâche à modifier !");
+        }
+    });
+
+    // Fonction pour supprimer la tâche sélectionnée
+    supprimerButton.addEventListener('click', function() {
+        if (selectedTask) {
+            todoList.removeChild(selectedTask);
+            selectedTask = null; // Réinitialiser la sélection
+        } else {
+            alert("Veuillez sélectionner une tâche à supprimer !");
         }
     });
 </script>
